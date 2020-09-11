@@ -1,6 +1,7 @@
 package com.iec.analysis.common;
 
 import com.iec.analysis.exception.UnknownTransferReasonException;
+import com.iec.analysis.exception.UnknownTypeIdentifierException;
 
 /**
  * 解析传送原因
@@ -34,6 +35,28 @@ public enum TransferReason {
     TransferReason(int code, String describe) {
         this.code = code;
         this.describe = describe;
+    }
+
+    public int getCode() {
+        return code;
+    }
+    public String getDescribe() {
+        return describe;
+    }
+
+    public static TransferReason type(int code) throws UnknownTypeIdentifierException {
+        for (TransferReason value : TransferReason.values()) {
+            if (value.code == code) return value;
+        }
+        throw new UnknownTypeIdentifierException();
+    }
+
+
+    public static int code(TransferReason type) throws UnknownTransferReasonException {
+        for (TransferReason value : TransferReason.values()) {
+            if (value.code == type.code) return value.code;
+        }
+        throw  new UnknownTransferReasonException();
     }
 
     public static String getDdescribe(int code) throws UnknownTransferReasonException {

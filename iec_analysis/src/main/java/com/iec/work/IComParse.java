@@ -1,5 +1,6 @@
 package com.iec.work;
 
+import com.iec.analysis.common.TransferReason;
 import com.iec.analysis.common.TypeIdentifier;
 import com.iec.analysis.protocol104.ASDU;
 import com.iec.entity.RuleEntity;
@@ -35,11 +36,11 @@ public class IComParse extends RuleBuild {
         Integer sendOrder = BytesUtils.leToInt(reg, 2, 2);
         //接受序列号
         Integer receiveOrder = BytesUtils.leToInt(reg, 4, 2);
-        int messageType = (int) reg[6];
+        int TI = (int) reg[6];
+        TypeIdentifier type = TypeIdentifier.type(TI);
         byte[] asdu = Arrays.copyOf(reg, reg.length - 6);
         System.arraycopy(reg, 6, asdu, 0, asdu.length);
-        String describe = TypeIdentifier.getDescribe(messageType);
-        log.error("类属性标识符:" + describe);
+        log.error("类属性标识符:" + TI);
         //可变结构限定词
         Map<String, String> tureDete = ASDU.variTureDete(asdu[1]);
         //传送原因[9 byte - 10 byte]
@@ -53,18 +54,28 @@ public class IComParse extends RuleBuild {
         }
         String infoanalysis = ASDU.Infoanalysis(info, asdu[0], Integer.valueOf(tureDete.get("order")), Integer.valueOf(tureDete.get("number")));
         String result = "";
-        switch (reason) {
-            //突发(自发)
-            case 3:
+        String iCount = CT_TEMP_MSG.get("ICOUNT");
+        if (iCount == null) {
+            log.error("协议解析失败:" + type.getDescribe());
+            return null;
+        }
+        switch (type) {
+            //不带时标的单点信息
+            case SINGLE_POINT:
+                result = SBuild104(Integer.valueOf(iCount));
                 break;
-            //响应站召唤（总召唤）
-            case 20:
-                String icount = CT_TEMP_MSG.get("ICOUNT");
-                if (icount == null) {
-                    log.error("协议解析失败:响应站召唤（总召唤）");
-                    return null;
+            //召唤命令
+            case CALL_COMMAND:
+
+                //TODO 根据总召唤命令传输原因，做需要的操作
+                //激活确认
+                if (reason == TransferReason.ACTIVATE_CONFIRMATION.getCode()) {
+
+                } else {
+                    //激活终止
+
                 }
-                result = SBuild104(Integer.valueOf(icount));
+                result = SBuild104(Integer.valueOf(iCount));
                 break;
             default:
                 return null;

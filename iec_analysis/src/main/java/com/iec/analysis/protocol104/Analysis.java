@@ -72,24 +72,30 @@ public class Analysis {
                 ruleEntity.setStructure("U");
                 if ((con[0] & 0xC0) == 128) {
                     //链路测试TESTFR:确认
-                    ruleEntity.setAttach1("TESTFR:确认");
+                    ruleEntity.setAttach1("TESTFR");
+                    ruleEntity.setAttach2("true");
                 } else if ((con[0] & 0xC0) == 64) {
                     //链路测试TESTFR：命令
-                    ruleEntity.setAttach1("TESTFR:命令");
+                    ruleEntity.setAttach1("TESTFR");
+                    ruleEntity.setAttach2("false");
                 }
                 if ((con[0] & 0x30) == 32) {
                     //断开数据传输STOPDT:确认
-                    ruleEntity.setAttach1("STOPDT:确认");
+                    ruleEntity.setAttach1("STOPDT");
+                    ruleEntity.setAttach2("true");
                 } else if ((con[0] & 0x30) == 16) {
                     //断开数据传输STOPDT：命令
-                    ruleEntity.setAttach1("STOPDT：命令");
+                    ruleEntity.setAttach1("STOPDT");
+                    ruleEntity.setAttach2("false");
                 }
                 if ((con[0] & 0x0C) == 8) {
                     //启动数据传输STARTDT:确认
-                    ruleEntity.setAttach1("STARTDT:确认");
+                    ruleEntity.setAttach1("STARTDT");
+                    ruleEntity.setAttach2("true");
                 } else if ((con[0] & 0x0C) == 4) {
                     //启动数据传输STARTDT：命令
-                    ruleEntity.setAttach1("STARTDT：命令");
+                    ruleEntity.setAttach1("STARTDT");
+                    ruleEntity.setAttach2("false");
                 }
                 break;
             //I格式控制域标志

@@ -236,9 +236,11 @@ public class Util {
     /**
      * 获取S格式的104报文的控制域
      */
-    public static String getNumberedSupervisoryFunction(int receiveNnumber) {
-        receiveNnumber = receiveNnumber << 1;
-        String r = String.format("%04X", receiveNnumber);
+    public static String getNumberedSupervisoryFunction(int iCount) {
+        iCount = iCount << 1;
+        //TODO S帧格式问题修复
+        Constant.CT_TEMP_MSG.put("iCount", String.valueOf(iCount));
+        String r = String.format("%04X", iCount);
 
         return "01" + "00" + r.substring(2, 4) + r.substring(0, 2);
     }

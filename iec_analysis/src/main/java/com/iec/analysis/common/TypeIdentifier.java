@@ -23,7 +23,7 @@ public enum TypeIdentifier {
     READ_SINGLE_PARAMETer(102, "读单个参数命令"),
     END_OF_INITIALIZATIon(70, "初始化结束"),
     CALL_COMMAND(100, "召唤命令"),
-    CLOCK_SYNCHRONIZATIon(103, "时钟同步/读取命令"),
+    CLOCK_SYNCHRONIZATIon(103, "时钟同步/读取命令"),    
     TEST_COMMAND(104, "测试命令"),
     RESET_PROCESS(105, "复位进程命令"),
     READ_MULTIPLE_PARAMETERS(132, "读多个参数命令"),
@@ -36,6 +36,28 @@ public enum TypeIdentifier {
     TypeIdentifier(int code, String describe) {
         this.code = code;
         this.describe = describe;
+    }
+
+    public int getCode() {
+        return code;
+    }
+    public String getDescribe() {
+        return describe;
+    }
+
+    public static TypeIdentifier type(int code) throws UnknownTypeIdentifierException {
+        for (TypeIdentifier value : TypeIdentifier.values()) {
+            if (value.code == code) return value;
+        }
+        throw new UnknownTypeIdentifierException();
+    }
+
+
+    public static int code(TypeIdentifier type) throws UnknownTypeIdentifierException {
+        for (TypeIdentifier value : TypeIdentifier.values()) {
+            if (value.code == type.code) return value.code;
+        }
+        throw new UnknownTypeIdentifierException();
     }
 
     public static String getDescribe(int code) throws UnknownTypeIdentifierException {

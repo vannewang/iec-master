@@ -1,6 +1,7 @@
 package com.iec.work;
 
 import com.iec.entity.RuleEntity;
+import com.iec.utils.Constant;
 import io.netty.channel.ChannelHandlerContext;
 
 /**
@@ -17,6 +18,10 @@ public class SComParse {
     }
 
     public String analysis(ChannelHandlerContext channel, byte[] reg, RuleEntity ruleEntity) {
+
+        //记录S帧的接受序号
+        String receivedNumber = ruleEntity.getAttach1();
+        Constant.CT_TEMP_MSG.put("sReceivedNumber", receivedNumber);
         return null;
     }
 }
