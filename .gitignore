@@ -1,0 +1,15 @@
+/bin
+/deploy
+target/
+*.iml
+
+### Gradle ###
+build
+.gradle*
+/.settings/
+/.project
+/.classpath
+*.iml/
+
+.idea/
+*.iml
