@@ -32,7 +32,7 @@ public class UComParse extends RuleBuild {
             //链路测试TESTFR
             case "TESTFR":
                 if (!bool) {
-                    result = UBuild104(true,"TESTFR");
+                    result = UBuild104(true, "TESTFR");
                 } else {
 //                    result = UBuild104();
                 }
@@ -70,7 +70,7 @@ public class UComParse extends RuleBuild {
                     int infoLength = 0;
                     //TODO qualifier      限定词
                     int qualifier = 20;
-                    result = IBuild104(code, VSQ, transferReason, infoAddress, infoLength, qualifier);
+                    result = IBuild104(code, VSQ, transferReason, infoAddress, infoLength, qualifier, null);
                 }
                 break;
             default:

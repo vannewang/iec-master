@@ -4,6 +4,7 @@ import com.iec.utils.Util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.function.Function;
 
 /**
@@ -30,19 +31,19 @@ public class ContinuousAddressBuilder<T> extends VaribleLengthPacket {
 
     @Deprecated
     public ContinuousAddressBuilder() {
-        this("00000000", 1, 0, 1, 0, 0);
+        this("00000000", 1, 0, 1, 0, 0,null);
     }
 
     public ContinuousAddressBuilder(String con) {
         super(con);
     }
 
-    public ContinuousAddressBuilder(String con, int TI, int asduAddress, int transferReason, int info_address, int infoLength) {
-        this(con, TI, asduAddress, transferReason, info_address, infoLength, -1);
+    public ContinuousAddressBuilder(String con, int TI, int asduAddress, int transferReason, int info_address, int infoLength, Date dateTime) {
+        this(con, TI, asduAddress, transferReason, info_address, infoLength, -1,dateTime);
     }
 
-    public ContinuousAddressBuilder(String con, int TI, int asduAddress, int transferReason, int info_address, int infoLength, int qualifier) {
-        super(con, TI, 1, asduAddress, transferReason);
+    public ContinuousAddressBuilder(String con, int TI, int asduAddress, int transferReason, int info_address, int infoLength, int qualifier, Date dateTime) {
+        super(con, TI, 1, asduAddress, transferReason,dateTime);
         this.info_address = info_address;
         this.infoLength = infoLength;
         this.infos = new ArrayList<T>();

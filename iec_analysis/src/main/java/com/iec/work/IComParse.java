@@ -11,6 +11,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
 import static com.iec.utils.Constant.CT_TEMP_MSG;
@@ -76,12 +77,19 @@ public class IComParse extends RuleBuild {
 
                 //激活确认
                 if (reason == TransferReason.ACTIVATE_CONFIRMATION.getCode()) {
-
-                } else {
+                    result = SBuild104(Integer.valueOf(iCount));
+                } else if (reason == TransferReason.ACTIVATE_TERMINATION.getCode()) {
                     //激活终止
-
+                    int code = TypeIdentifier.code(TypeIdentifier.CALL_COMMAND);
+                    int VSQ = 1;
+                    int infoAddress = 1;
+                    //TODO infoLength 信息体长度
+                    int infoLength = 0;
+                    //TODO qualifier      限定词
+                    int qualifier = -1;
+                    result = IBuild104(TypeIdentifier.code(TypeIdentifier.CLOCK_SYNCHRONIZATIon), VSQ, TransferReason.ACTIVATE.getCode(), infoAddress, infoLength, qualifier, new Date());
                 }
-                result = SBuild104(Integer.valueOf(iCount));
+
                 break;
             default:
                 return null;

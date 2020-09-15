@@ -51,7 +51,8 @@ public class Analysis104Test {
 
     @Test
     public void build() {
-        UnContinuousAddressBuilder<Integer> integerUnContinuousAddressBuilder = new UnContinuousAddressBuilder<>(Util.getInformationTransmitFormat(0, 1), 100, 1, 6, 0, 0, 20);
+        UnContinuousAddressBuilder<Integer> integerUnContinuousAddressBuilder =
+                new UnContinuousAddressBuilder<>(Util.getInformationTransmitFormat(0, 1), 100, 1, 6, 0, 0, 20,null);
         System.out.println(integerUnContinuousAddressBuilder.build().equals("68  0E  00  00  02  00  64  01  06  00  01  00  00  00  00  14".replaceAll(" ", "")));
     }
 
@@ -92,7 +93,7 @@ public class Analysis104Test {
 
         UnContinuousAddressBuilder<Integer> UnContinuousAddressBuilder =
                 new UnContinuousAddressBuilder<>(Util.getInformationTransmitFormat(Integer.valueOf(0),
-                        Integer.valueOf(0)), 100, 1, 6, 1, 0, 20);
+                        Integer.valueOf(0)), 100, 1, 6, 1, 0, 20,null);
         System.out.println(UnContinuousAddressBuilder.build());
 
     }

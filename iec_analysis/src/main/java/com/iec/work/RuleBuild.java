@@ -7,6 +7,7 @@ import com.iec.utils.Constant;
 import com.iec.utils.Util;
 import org.springframework.util.ObjectUtils;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -24,7 +25,8 @@ public class RuleBuild {
      *
      * @return
      */
-    protected String IBuild104(int TI, int VSQ, int transferReason, int infoAddress, int infoLength, int qualifier) {
+    protected String IBuild104(int TI, int VSQ, int transferReason, int infoAddress, int infoLength, int qualifier,
+                               Date dateTime) {
         String sendNumber = Constant.CT_TEMP_MSG.get("sendNumber");
         if (ObjectUtils.isEmpty(sendNumber)) {
             Constant.CT_TEMP_MSG.put("sendNumber", "0");
@@ -40,13 +42,13 @@ public class RuleBuild {
             //连续值
             ContinuousAddressBuilder<Integer> integerContinuousAddressBuilder =
                     new ContinuousAddressBuilder<>(informationTransmitFormat,
-                            TI, VSQ, transferReason, infoAddress, infoLength, qualifier);
+                            TI, VSQ, transferReason, infoAddress, infoLength, qualifier,dateTime);
             result = integerContinuousAddressBuilder.build();
         } else {
             //不连续值
 
             UnContinuousAddressBuilder<Integer> integerUnContinuousAddressBuilder =
-                    new UnContinuousAddressBuilder<>(informationTransmitFormat, TI, VSQ, transferReason, infoAddress, infoLength, qualifier);
+                    new UnContinuousAddressBuilder<>(informationTransmitFormat, TI, VSQ, transferReason, infoAddress, infoLength, qualifier,dateTime);
             result = integerUnContinuousAddressBuilder.build();
         }
 

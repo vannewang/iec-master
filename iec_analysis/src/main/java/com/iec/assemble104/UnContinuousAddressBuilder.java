@@ -4,6 +4,7 @@ import com.iec.utils.Util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.function.Function;
 
 /**
@@ -31,15 +32,16 @@ public class UnContinuousAddressBuilder<T> extends VaribleLengthPacket {
 
     @Deprecated
     public UnContinuousAddressBuilder() {
-        this("00000000", 1, 0, 1, 0, 0);
+        this("00000000", 1, 0, 1, 0, 0,null);
     }
 
-    public UnContinuousAddressBuilder(String con, int TI, int asduAddress, int transferReason, int infoLength) {
-        this(con, TI, asduAddress, transferReason, 0, infoLength, -1);
+    public UnContinuousAddressBuilder(String con, int TI, int asduAddress, int transferReason, int infoLength, Date dateTime) {
+        this(con, TI, asduAddress, transferReason, 0, infoLength, -1,dateTime);
     }
 
-    public UnContinuousAddressBuilder(String con, int TI, int asduAddress, int transferReason, int info_address, int infoLength) {
-        this(con, TI, asduAddress, transferReason, info_address, infoLength, -1);
+    public UnContinuousAddressBuilder(String con, int TI, int asduAddress, int transferReason, int info_address,
+                                      int infoLength, Date dateTime) {
+        this(con, TI, asduAddress, transferReason, info_address, infoLength, -1,dateTime);
     }
 
     /**
@@ -51,16 +53,15 @@ public class UnContinuousAddressBuilder<T> extends VaribleLengthPacket {
      * @param infoLength     信息体长度
      * @param qualifier      限定词
      */
-    public UnContinuousAddressBuilder(String con, int TI, int asduAddress, int transferReason, int info_address, int infoLength, int qualifier) {
-        super(con, TI, 0, asduAddress, transferReason);
+    public UnContinuousAddressBuilder(String con, int TI, int asduAddress, int transferReason, int info_address,
+                                      int infoLength, int qualifier, Date dateTime) {
+        super(con, TI, 0, asduAddress, transferReason, dateTime);
         this.info_adds = new ArrayList<Integer>();
         this.info_adds.add(info_address);
         this.infos = new ArrayList<T>();
         this.infoLength = infoLength;
         this.qualifier = qualifier;
     }
-
-
 
 
     public UnContinuousAddressBuilder<T> buildCon(String con) {
@@ -125,8 +126,8 @@ public class UnContinuousAddressBuilder<T> extends VaribleLengthPacket {
         builder.append(String.format("%02X", messageLen));
         builder.append(con);
         builder.append(String.format("%02X", this.TI));
-        builder.append(String.format("%02X", (this.SQ << 7) + this.infos.size()==0?1:this.infos.size()));
-        builder.append( Util.getAddressStr(this.transferReason));
+        builder.append(String.format("%02X", (this.SQ << 7) + this.infos.size() == 0 ? 1 : this.infos.size()));
+        builder.append(Util.getAddressStr(this.transferReason));
         builder.append(Util.getAddressStr(this.asduAddress));
         if (this.infos.size() == 0) {
             builder.append(Util.getAddressStr3(this.info_adds.get(0)));

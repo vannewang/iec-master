@@ -50,11 +50,12 @@ public abstract class VaribleLengthPacket {
         this.SQ = SQ;
     }
 
-    public VaribleLengthPacket(String con, int TI, int SQ, int asduAddress, int transferReason) {
+    public VaribleLengthPacket(String con, int TI, int SQ, int asduAddress, int transferReason, Date dateTime) {
         this.con = con;
         this.TI = TI;
         this.SQ = SQ;
         this.asduAddress = asduAddress;
         this.transferReason = transferReason;
+        this.dateTime = dateTime;
     }
 }
