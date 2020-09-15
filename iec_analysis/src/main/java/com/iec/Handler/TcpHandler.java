@@ -6,7 +6,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import lombok.SneakyThrows;
 
 import java.util.regex.PatternSyntaxException;
 
@@ -58,7 +57,6 @@ public class TcpHandler extends ChannelInboundHandlerAdapter {
 
     }
 
-    @SneakyThrows
     private void writectx(ChannelHandlerContext ctx, byte[] reg, String respMsg) {
         try {
 //            String body = HexBin.encode(reg);
@@ -71,7 +69,7 @@ public class TcpHandler extends ChannelInboundHandlerAdapter {
             e.printStackTrace();
         }
         System.out.println("----" + Thread.currentThread().getName() + ",Command message response : " + respMsg);
-        if (!"".equals(respMsg)) {
+        if (!"".equals(respMsg)&&respMsg!=null) {
             ByteBuf respByteBuf = Unpooled.copiedBuffer(HexBin.decode(respMsg));
             ctx.write(respByteBuf);
         }

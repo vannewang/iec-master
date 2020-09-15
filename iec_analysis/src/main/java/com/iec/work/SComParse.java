@@ -21,7 +21,7 @@ public class SComParse {
 
         //记录S帧的接受序号
         String receivedNumber = ruleEntity.getAttach1();
-        Constant.CT_TEMP_MSG.put("sReceivedNumber", receivedNumber);
+        Constant.CT_TEMP_MSG.put("ICOUNT", receivedNumber);
         return null;
     }
 }

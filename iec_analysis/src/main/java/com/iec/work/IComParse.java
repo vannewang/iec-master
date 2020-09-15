@@ -32,6 +32,7 @@ public class IComParse extends RuleBuild {
 
     @SneakyThrows
     public String analysis(ChannelHandlerContext channel, byte[] reg, RuleEntity ruleEntity) {
+        Integer length = Integer.valueOf(reg[1]);
         //发送序列号
         Integer sendOrder = BytesUtils.leToInt(reg, 2, 2);
         //接受序列号
@@ -52,7 +53,12 @@ public class IComParse extends RuleBuild {
         for (int i = 0; i < info.length; i++) {
             info[i] = asdu[6 + i];
         }
-        String infoanalysis = ASDU.Infoanalysis(info, asdu[0], Integer.valueOf(tureDete.get("order")), Integer.valueOf(tureDete.get("number")));
+        String order = tureDete.get("order");
+        String number = tureDete.get("number");
+        /**
+         * 解析协议数据
+         */
+        String infoanalysis = ASDU.Infoanalysis(info, asdu[0], Integer.valueOf(order), Integer.valueOf(number));
         String result = "";
         String iCount = CT_TEMP_MSG.get("ICOUNT");
         if (iCount == null) {
@@ -62,12 +68,12 @@ public class IComParse extends RuleBuild {
         switch (type) {
             //不带时标的单点信息
             case SINGLE_POINT:
+                //单点遥信 YX帧 响应总召唤
                 result = SBuild104(Integer.valueOf(iCount));
                 break;
             //召唤命令
             case CALL_COMMAND:
 
-                //TODO 根据总召唤命令传输原因，做需要的操作
                 //激活确认
                 if (reason == TransferReason.ACTIVATE_CONFIRMATION.getCode()) {
 

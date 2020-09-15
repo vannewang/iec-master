@@ -80,7 +80,7 @@ public class DeviceTCPService extends RuleBuild {
                     ChannelFuture future = bootstrap.connect(ADDRESS, PORT).sync();
                     log.info("客户端成功....");
                     //发送消息
-                    String msg = UBuild104(false, false, true);
+                    String msg = UBuild104(false, "STARTDT");
                     byte[] decode = HexBin.decode(msg);
                     ByteBuf respByteBuf = Unpooled.copiedBuffer(decode);
                     future.channel().writeAndFlush(respByteBuf);

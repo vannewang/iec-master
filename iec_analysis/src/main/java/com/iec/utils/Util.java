@@ -255,4 +255,24 @@ public class Util {
         con += (startdt ? 1 : 0) << 2;
         return String.format("%02X", con) + "000000";
     }
+
+
+    /**
+     * 获取U格式的104报文的控制域
+     */
+    public static String getUnnumberedControlFunction(boolean bool, String key) {
+        int con = 3;
+        switch (key) {
+            case "TESTFR":
+                con += (bool ? 2 : 1) << 6;
+                break;
+            case "STOPDT":
+                con += (bool ? 2 : 1) << 4;
+                break;
+            case "STARTDT":
+                con += (bool ? 2 : 1) << 2;
+                break;
+        }
+        return String.format("%02X", con) + "000000";
+    }
 }

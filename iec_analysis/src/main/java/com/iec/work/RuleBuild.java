@@ -1,6 +1,5 @@
 package com.iec.work;
 
-import com.iec.analysis.common.RuleCommand;
 import com.iec.analysis.protocol104.ASDU;
 import com.iec.assemble104.ContinuousAddressBuilder;
 import com.iec.assemble104.UnContinuousAddressBuilder;
@@ -17,7 +16,7 @@ import java.util.Map;
  * @version 1.0
  * @date 2020-09-11
  */
-public class RuleBuild implements RuleCommand {
+public class RuleBuild {
 
 
     /**
@@ -27,25 +26,27 @@ public class RuleBuild implements RuleCommand {
      */
     protected String IBuild104(int TI, int VSQ, int transferReason, int infoAddress, int infoLength, int qualifier) {
         String sendNumber = Constant.CT_TEMP_MSG.get("sendNumber");
-        String receiveNumber = Constant.CT_TEMP_MSG.get("receiveNumber");
         if (ObjectUtils.isEmpty(sendNumber)) {
             Constant.CT_TEMP_MSG.put("sendNumber", "0");
             Constant.CT_TEMP_MSG.put("receiveNumber", "0");
         }
+        sendNumber = Constant.CT_TEMP_MSG.get("sendNumber");
+        String receiveNumber = Constant.CT_TEMP_MSG.get("receiveNumber");
         String result;
         Map<String, String> VSQMap = ASDU.variTureDete(VSQ);
 
+        String informationTransmitFormat = Util.getInformationTransmitFormat(Integer.valueOf(sendNumber), Integer.valueOf(receiveNumber));
         if ("1".equals(VSQMap.get("order"))) {
             //连续值
             ContinuousAddressBuilder<Integer> integerContinuousAddressBuilder =
-                    new ContinuousAddressBuilder<>(Util.getInformationTransmitFormat(Integer.valueOf(sendNumber),
-                            Integer.valueOf(receiveNumber)),
+                    new ContinuousAddressBuilder<>(informationTransmitFormat,
                             TI, VSQ, transferReason, infoAddress, infoLength, qualifier);
             result = integerContinuousAddressBuilder.build();
         } else {
             //不连续值
-            UnContinuousAddressBuilder<Integer> integerUnContinuousAddressBuilder = new UnContinuousAddressBuilder<>(Util.getInformationTransmitFormat(Integer.valueOf(sendNumber),
-                    Integer.valueOf(receiveNumber)), TI, VSQ, transferReason, infoAddress, infoLength, qualifier);
+
+            UnContinuousAddressBuilder<Integer> integerUnContinuousAddressBuilder =
+                    new UnContinuousAddressBuilder<>(informationTransmitFormat, TI, VSQ, transferReason, infoAddress, infoLength, qualifier);
             result = integerUnContinuousAddressBuilder.build();
         }
 
@@ -54,13 +55,14 @@ public class RuleBuild implements RuleCommand {
 
 
     /**
+     * im
      * 建造U帧
      *
      * @return
      */
-    protected String UBuild104(boolean tester, boolean stopdt, boolean startdt) {
+    protected String UBuild104(boolean bool, String key) {
         ContinuousAddressBuilder<Integer> integerUnContinuousAddressBuilder =
-                new ContinuousAddressBuilder<>(Util.getUnnumberedControlFunction(tester, stopdt, startdt));
+                new ContinuousAddressBuilder<>(Util.getUnnumberedControlFunction(bool, key));
         return integerUnContinuousAddressBuilder.buildSU();
     }
 
